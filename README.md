@@ -13,3 +13,13 @@ language deserves a seat at the table (or more precisely, a folder in `src`).
 Like a language but don't see it present? Send a patch with some extra features
 written in that language, connecting it to the rest of the program with whatever
 eldritch code you need!
+
+# Roadmap
+FR4NKEN doesn't really do anything yet (the opposite of its goal). Here's the
+current roadmap:
+* Get basic infrastructure (currently in C, C++, and Zig) up to allow the
+  language soup to form. [Status: Mostly done, currently using an OOP system]
+* Create an event-driven system using the OOP system.
+* Get some UI with SDL (trying to make it as ~~strange~~ unique as possible)
+* Make some more UI elements, throwing in some other languages while doing it
+* Make the entire rest of the universe
