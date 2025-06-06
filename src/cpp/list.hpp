@@ -10,7 +10,7 @@ extern "C" {
 namespace fr4nken {
 	/// Data for a list
 	struct ListData {
-		std::vector<fr_Value> values;
+		std::vector<fr_Value> vec;
 	};
 
 	/// Creates a new list
