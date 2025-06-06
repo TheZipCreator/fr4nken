@@ -15,8 +15,13 @@ typedef struct fr_String {
 	char data[];
 } fr_String;
 
+/// Hashes a string
+size_t fr_hashString(const fr_String *string);
+
 /// Creates a string object (copies the string to the new object)
 fr_Object *fr_newString(const char *string, size_t len);
+/// Creates a string object from a C string
+fr_Object *fr_newStringC(const char *string);
 
 #endif
 #ifdef __cplusplus

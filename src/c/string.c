@@ -7,6 +7,15 @@
 
 uint32_t fr_stringDataTag;
 
+size_t fr_hashString(const fr_String *string) {
+	// djb2 by Dan Bernstein
+	size_t hash = 5381;
+	int32_t c;
+	for(size_t i = 0; i < string->len; i++)
+		hash = ((hash << 5) + hash) + string->data[i]; /* hash * 33 + c */	
+	return hash;
+}
+
 static void String_destroy(uint32_t tag, void *data) {
 	free(data);
 }
@@ -63,5 +72,9 @@ fr_Object *fr_newString(const char *string, size_t len) {
 	fr_addMethod(ret, "append", &String_append);
 	fr_addMethod(ret, "sub", &String_sub);
 	return ret;
+}
+
+fr_Object *fr_newStringC(const char *string) {
+	return fr_newString(string, strlen(string));
 }
 
