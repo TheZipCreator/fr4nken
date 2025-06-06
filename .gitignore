@@ -1,3 +1,4 @@
 *.o
+*.a
 valgrind.log
 fr4nken
