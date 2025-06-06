@@ -1,20 +1,32 @@
 # compilers
-LD := ld # linker
-CC := gcc # c compiler
-CFLAGS := -g -std=c11 # c flags
-CXX := g++ # c++ compiler
-CXXFLAGS := -g -std=c++17 # c++ flags
+# C compiler
+CC := gcc
+# C flags
+CFLAGS := -g -std=c11
+# C++ compiler
+CXX := g++
+# C++ flags
+CXXFLAGS := -g -std=c++17
+# Zig compiler
+ZIG := zig
+# Zig flags
+ZIGFLAGS := -fPIC -fcompiler-rt
+# Final linker flags
+LDFLAGS := -fPIC
+# Linker
+LD := g++
 
 build: fr4nken;
 run: build
 	./fr4nken
 clean:
 	rm -f src/*/*.o
+	rm -f src/*/*.a
 valgrind: build
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=valgrind.log ./fr4nken
 
-fr4nken: src/c/main.o src/c/object.o src/c/errorhandling.o src/c/string.o src/c/value.o src/c/init.o src/cpp/init.o src/cpp/list.o
-	$(CXX) src/c/*.o src/cpp/*.o -o fr4nken
+fr4nken: src/c/main.o src/c/object.o src/c/errorhandling.o src/c/string.o src/c/value.o src/c/init.o src/cpp/init.o src/cpp/list.o src/zig/libfr4nken.a
+	$(LD) $(LDFLAGS) src/c/*.o src/cpp/*.o src/zig/libfr4nken.a -o fr4nken
 	
 
 define c_source
@@ -29,6 +41,7 @@ $(call c_source,string)
 $(call c_source,value)
 $(call c_source,init)
 
+
 define cpp_source
 	src/cpp/$(1).o: src/cpp/$(1).cpp;
 		$(CXX) src/cpp/$(1).cpp $(CXXFLAGS) -c -o src/cpp/$(1).o
@@ -36,3 +49,7 @@ endef
 
 $(call cpp_source,init)
 $(call cpp_source,list)
+
+src/zig/libfr4nken.a: $(wildcard src/zig/*.zig);
+	cd src/zig; \
+		$(ZIG) build-lib *.zig $(ZIGFLAGS) --name fr4nken

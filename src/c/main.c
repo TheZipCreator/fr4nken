@@ -9,9 +9,11 @@ int main(void) {
 	// preinit
 	c_preinit();
 	cpp_preinit();
+	zig_preinit();
 	// init
 	c_init();
 	cpp_init();
+	zig_init();
 	{
 		fr_Object *make = *fr_Registry_get(&fr_registry, "make");
 		fr_Object *list = fr_callMethod(make, "list", 0, NULL).vobject;
