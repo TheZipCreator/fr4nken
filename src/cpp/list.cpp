@@ -19,15 +19,15 @@ namespace fr4nken {
 
 	FR_METHOD(fr_List_get) {
 		FR_NARGS_EQUALS(1);
-		FR_GET_DATA(ListData);
 		FR_GET_INT(index, 0);
+		FR_GET_DATA(ListData);
 		BOUNDS_CHECK(index);
 		return data->vec[index];
 	}
 	FR_METHOD(fr_List_put) {
 		FR_NARGS_EQUALS(2);
-		FR_GET_DATA(ListData);
 		FR_GET_INT(index, 0);
+		FR_GET_DATA(ListData);
 		BOUNDS_CHECK(index);
 		data->vec[index] = args[1];
 		return FR_UNDEFINED;

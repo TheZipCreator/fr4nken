@@ -6,7 +6,7 @@ CFLAGS := -g -std=c11
 # C++ compiler
 CXX := g++
 # C++ flags
-CXXFLAGS := -g -std=c++17
+CXXFLAGS := -g -std=c++20
 # Zig compiler
 ZIG := zig
 # Zig flags
@@ -25,7 +25,7 @@ clean:
 valgrind: build
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=valgrind.log ./fr4nken
 
-fr4nken: src/c/main.o src/c/object.o src/c/errorhandling.o src/c/string.o src/c/value.o src/c/init.o src/cpp/init.o src/cpp/list.o src/zig/libfr4nken.a
+fr4nken: src/c/main.o src/c/object.o src/c/errorhandling.o src/c/string.o src/c/value.o src/c/init.o src/cpp/init.o src/cpp/list.o src/cpp/map.o src/zig/libfr4nken.a
 	$(LD) $(LDFLAGS) src/c/*.o src/cpp/*.o src/zig/libfr4nken.a -o fr4nken
 	
 
@@ -49,7 +49,8 @@ endef
 
 $(call cpp_source,init)
 $(call cpp_source,list)
+$(call cpp_source,map)
 
 src/zig/libfr4nken.a: $(wildcard src/zig/*.zig);
 	cd src/zig; \
-		$(ZIG) build-lib *.zig $(ZIGFLAGS) --name fr4nken
+		$(ZIG) build-lib *.zig $(ZIGFLAGS) --name fr4nken -Isrc

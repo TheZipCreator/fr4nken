@@ -1,12 +1,14 @@
 #include <stdint.h>
-#include <vector>
 
 #include "../c/value.h"
 
-extern "C" {
-	extern uint32_t fr_listDataTag;
-}
 #ifdef __cplusplus
+#include <vector>
+extern "C" {
+#endif
+	extern uint32_t fr_listDataTag;
+#ifdef __cplusplus
+}
 namespace fr4nken {
 	/// Data for a list
 	struct ListData {
