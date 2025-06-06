@@ -1,0 +1,3 @@
+*.o
+valgrind.log
+fr4nken
