@@ -53,4 +53,4 @@ $(call cpp_source,map)
 
 src/zig/libfr4nken.a: $(wildcard src/zig/*.zig);
 	cd src/zig; \
-		$(ZIG) build-lib *.zig $(ZIGFLAGS) --name fr4nken -Isrc
+		$(ZIG) build-lib init.zig $(ZIGFLAGS) --name fr4nken -I.. -lc

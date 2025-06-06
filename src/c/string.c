@@ -61,6 +61,24 @@ static FR_METHOD(String_sub) {
 	FR_ASSERT_MSG(second >= first, FR_UNDEFINED, "Second index in substring must be greater than first");
 	return FR_OBJECT(fr_newString(data->data+first, second-first));
 }
+static FR_METHOD(String_hash) {
+	FR_NARGS_EQUALS(0);
+	FR_GET_DATA(fr_String);
+	return FR_INT(fr_hashString(data));
+}
+static FR_METHOD(String_equals) {
+	FR_NARGS_EQUALS(1);
+	FR_GET_STRING(other, 1);
+	FR_GET_DATA(fr_String);
+	if(data->len != other->len)
+		return FR_BOOL(false);
+	return FR_BOOL(memcmp(data->data, other->data, data->len) != 0);
+}
+static FR_METHOD(String_toString) {
+	FR_NARGS_EQUALS(0);
+	fr_acquire(self);
+	return FR_OBJECT(self);
+}
 
 fr_Object *fr_newString(const char *string, size_t len) {
 	fr_String *data = malloc(sizeof(fr_String)+len);
@@ -71,6 +89,8 @@ fr_Object *fr_newString(const char *string, size_t len) {
 	fr_addMethod(ret, "put", &String_put);
 	fr_addMethod(ret, "append", &String_append);
 	fr_addMethod(ret, "sub", &String_sub);
+	fr_addMethod(ret, "hash", &String_hash);
+	fr_addMethod(ret, "equals", &String_equals);
 	return ret;
 }
 

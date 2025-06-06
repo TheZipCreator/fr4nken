@@ -9,23 +9,21 @@ extern "C" {
 #ifdef __cplusplus
 }
 template <>
-struct std::hash<fr_String *> {
-	size_t operator()(const fr_String *&k) const {
-		return fr_hashString(k);	
+struct std::hash<fr_Value> {
+	size_t operator()(const fr_Value &k) const {
+		return fr_hash(k);	
 	}
 };
 template <>
-struct std::equal_to<fr_String *> {
-	bool operator()(const fr_String *&a, const fr_String *&b) {
-		if(a->len != b->len)
-			return false;
-		return memcmp(a->data, b->data, a->len) == 0;
+struct std::equal_to<fr_Value> {
+	bool operator()(const fr_Value &a, const fr_Value &b) const {
+		return fr_equal(a, b);
 	}
 };
 namespace fr4nken {
 	/// Data for a map
 	struct MapData {
-		std::unordered_map<fr_String *, fr_Value> map;
+		std::unordered_map<fr_Value, fr_Value> map;
 	};
 
 	/// Creates a new map

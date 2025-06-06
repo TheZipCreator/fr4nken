@@ -11,30 +11,30 @@ namespace fr4nken {
 	
 	FR_METHOD(fr_Map_get) {
 		FR_NARGS_EQUALS(1);
-		FR_GET_STRING(str, 0);
+		auto key = args[0];
 		FR_GET_DATA(MapData);
-		FR_ASSERT_MSG(data->map.contains(str), FR_UNDEFINED, "Attempt to get non-existent key in map '%.*s'", str->data, (int)str->len);
-		return data->map[str];
+		FR_ASSERT_MSG(data->map.contains(key), FR_UNDEFINED, "Attempt to get non-existent key in map!");
+		return data->map[key];
 	}
 	FR_METHOD(fr_Map_put) {
 		FR_NARGS_EQUALS(2);
-		FR_GET_STRING(str, 0);
+		auto key = args[0];
 		FR_GET_DATA(MapData);
-		data->map[str] = args[1];
+		data->map[key] = args[1];
 		return FR_UNDEFINED;
 	}
 	FR_METHOD(fr_Map_has) {
 		FR_NARGS_EQUALS(1);
-		FR_GET_STRING(str, 0);
+		auto key = args[0];
 		FR_GET_DATA(MapData);
-		return FR_BOOL(data->map.contains(str));
+		return FR_BOOL(data->map.contains(key));
 	}
 	FR_METHOD(fr_Map_delete) {
 		FR_NARGS_EQUALS(1);
-		FR_GET_STRING(str, 0);
+		auto key = args[0];
 		FR_GET_DATA(MapData);
-		FR_ASSERT_MSG(data->map.contains(str), FR_UNDEFINED, "Attempt to delete non-existent key in map '%.*s'", str->data, (int)str->len);
-		data->map.erase(str);
+		FR_ASSERT_MSG(data->map.contains(key), FR_UNDEFINED, "Attempt to delete non-existent key in map!");
+		data->map.erase(key);
 		return FR_UNDEFINED;
 	}
 

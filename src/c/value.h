@@ -6,6 +6,7 @@ extern "C" {
 
 #include <stdint.h>
 #include <stdbool.h>
+#include <stddef.h>
 
 /// Type of a value
 enum {
@@ -38,6 +39,19 @@ typedef struct fr_Value {
 
 /// Gets a string representing the name of a type
 const char *fr_typename(uint8_t type);
+
+// (implemented in zig)
+
+/// Acquires a value
+void fr_acquireV(fr_Value v);
+/// Releases a value
+void fr_releaseV(fr_Value v);
+/// Hashes a value
+size_t fr_hash(fr_Value v);
+/// Checks if two values are equal
+bool fr_equal(fr_Value a, fr_Value b);
+/// Converts a value to a string
+fr_Object *fr_toString(fr_Value v);
 
 #define FR_UNDEFINED (fr_Value){.type = FR_TYPE_UNDEFINED}
 #define FR_NULL (fr_Value){.type = FR_TYPE_NULL}
