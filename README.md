@@ -18,8 +18,9 @@ eldritch code you need!
 FR4NKEN doesn't really do anything yet (the opposite of its goal). Here's the
 current roadmap:
 * Get basic infrastructure (currently in C, C++, and Zig) up to allow the
-  language soup to form. [Status: Mostly done, currently using an OOP system]
-* Create an event-driven system using the OOP system.
-* Get some UI with SDL (trying to make it as ~~strange~~ unique as possible)
+  language soup to form. [Done]
+* Create an event-driven system using the OOP system. [Done]
+* Get SDL graphics working
+* Make some ~~utterly bizarre~~ "unique" UI with the graphics.
 * Make some more UI elements, throwing in some other languages while doing it
 * Make the entire rest of the universe
