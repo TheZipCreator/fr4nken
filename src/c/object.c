@@ -35,6 +35,11 @@ fr_Object *fr_new(uint32_t dataTag, void *data, fr_DestroyData destroyData) {
 	ret->methods = fr_MethodTable_new(32);
 	return ret;
 }
+fr_Object *fr_newUnowned(uint32_t dataTag, void *data, fr_DestroyData destroyData) {
+	fr_Object *ret = fr_new(dataTag, data, destroyData);
+	ret->refcnt--;
+	return ret;
+}
 
 void fr_acquire(fr_Object *object) {
 	object->refcnt++;

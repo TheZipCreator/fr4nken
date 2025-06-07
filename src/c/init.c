@@ -38,11 +38,16 @@ void fr_preinit(void) {
 
 void fr_init(void) {
 	// make events object
-	fr_Object *events = fr_shortCall(*fr_registry_get("make"), "map", "").vobject;
+	fr_Object *make = *fr_registry_get("make");
+	fr_Object *postInit = fr_shortCall(make, "event", "").vobject;
+	fr_registry_put("event_postInit", postInit);
 	
 	// init
 	c_init();
 	cpp_init();
 	zig_init();
+	
+	// call postInit event
+	fr_shortCall(postInit, "trigger", "");
 
 }

@@ -36,6 +36,8 @@ struct fr_Object {
 
 /// Creates an object, starting with reference count one
 fr_Object *fr_new(uint32_t dataTag, void *data, fr_DestroyData destroyData);
+/// Creates an object, starting with reference count zero
+fr_Object *fr_newUnowned(uint32_t dataTag, void *data, fr_DestroyData destroyData);
 /// Acquires an object reference, increasings its refcount
 void fr_acquire(fr_Object *object);
 /// Releases an object reference, destroying the object if necessary
@@ -60,9 +62,9 @@ fr_Value fr_shortCall(fr_Object *object, const char *name, const char *fmt, ...)
 XSTD_HASHTABLE_H(fr_Registry, fr_Registry, fr_RegistryIter, fr_RegistryIter, const char*, fr_Object *);
 /// The global registry for global objects
 extern fr_Registry fr_registry;
-/// Utility function to get from the registry
+/// Utility function to get from the registry. Note: Does not acquire the object. If you need to keep the reference, call fr_acquire()
 fr_Object **fr_registry_get(const char *name);
-/// Utility function to add to the registry
+/// Utility function to add to the registry. Note: Does not acquire the object. If you need to keep the reference, call fr_acquire()
 void fr_registry_put(const char *name, fr_Object *obj);
 
 

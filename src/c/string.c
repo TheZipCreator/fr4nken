@@ -98,3 +98,14 @@ fr_Object *fr_newStringC(const char *string) {
 	return fr_newString(string, strlen(string));
 }
 
+fr_Object *fr_newStringUnowned(const char *string, size_t len) {
+	fr_Object *ret = fr_newString(string, len);
+	ret->refcnt--;
+	return ret;
+}
+fr_Object *fr_newStringCUnowned(const char *string) {
+	fr_Object *ret = fr_newStringC(string);
+	ret->refcnt--;
+	return ret;
+	
+}
