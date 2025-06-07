@@ -4,6 +4,9 @@ extern "C" {
 #ifndef FR_INIT_GUARD
 #define FR_INIT_GUARD
 
+void fr_preinit(void);
+void fr_init(void);
+
 void c_preinit(void);
 void c_init(void);
 void cpp_preinit(void);

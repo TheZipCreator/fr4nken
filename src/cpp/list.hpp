@@ -1,6 +1,8 @@
+#ifndef FR_LIST_HPP
+#define FR_LIST_HPP
 #include <stdint.h>
 
-#include "../c/value.h"
+#include "value.hpp"
 
 #ifdef __cplusplus
 #include <vector>
@@ -12,10 +14,11 @@ extern "C" {
 namespace fr4nken {
 	/// Data for a list
 	struct ListData {
-		std::vector<fr_Value> vec;
+		std::vector<Value> vec;
 	};
 
 	/// Creates a new list
 	fr_Object *newList(void);
 }
+#endif
 #endif

@@ -16,12 +16,35 @@ static FR_METHOD(makeString) {
 
 void c_preinit(void) {
 	fr_stringDataTag = fr_newDataTag();
-	// create Make object
-	fr_Object *make = fr_new(0, NULL, NULL);
+	fr_Object *make = *fr_Registry_get(&fr_registry, "make");
 	fr_addMethod(make, "string", &makeString);
-	fr_Registry_put(&fr_registry, "make", make);
 }
 
 void c_init(void) {
 	
+}
+
+void fr_preinit(void) {
+	// init registry
+	fr_registry = fr_Registry_new(512);
+	// create Make object
+	fr_Object *make = fr_new(0, NULL, NULL);
+	fr_Registry_put(&fr_registry, "make", make);
+	// preinit
+	c_preinit();
+	cpp_preinit();
+	zig_preinit();
+
+}
+
+void fr_init(void) {
+	// make events object
+	fr_Object *make = *fr_Registry_get(&fr_registry, "make");
+	fr_Object *events = fr_callMethod(make, "map", 0, NULL).vobject;
+	
+	// init
+	c_init();
+	cpp_init();
+	zig_init();
+
 }

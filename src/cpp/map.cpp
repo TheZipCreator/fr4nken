@@ -34,6 +34,7 @@ namespace fr4nken {
 		auto key = args[0];
 		FR_GET_DATA(MapData);
 		FR_ASSERT_MSG(data->map.contains(key), FR_UNDEFINED, "Attempt to delete non-existent key in map!");
+		fr_releaseV(key);
 		data->map.erase(key);
 		return FR_UNDEFINED;
 	}
