@@ -110,3 +110,10 @@ fr_Value fr_shortCall(fr_Object *object, const char *name, const char *fmt, ...)
 	va_end(ap);
 	return fr_callMethod(object, name, len, args);
 }
+
+fr_Object **fr_registry_get(const char *name) {
+	return fr_Registry_get(&fr_registry, name);
+}
+void fr_registry_put(const char *name, fr_Object *obj) {
+	fr_Registry_put(&fr_registry, name, obj);
+}

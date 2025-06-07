@@ -60,6 +60,10 @@ fr_Value fr_shortCall(fr_Object *object, const char *name, const char *fmt, ...)
 XSTD_HASHTABLE_H(fr_Registry, fr_Registry, fr_RegistryIter, fr_RegistryIter, const char*, fr_Object *);
 /// The global registry for global objects
 extern fr_Registry fr_registry;
+/// Utility function to get from the registry
+fr_Object **fr_registry_get(const char *name);
+/// Utility function to add to the registry
+void fr_registry_put(const char *name, fr_Object *obj);
 
 
 
