@@ -14,7 +14,7 @@ comptime {
 
 export fn zig_preinit() callconv(.C) void {
     event.eventDataTag = c.fr_newDataTag();
-	const make = c.fr_registry_get("make").*;
+	const make = c.fr_registryGet("make").*;
     c.fr_addMethod(make, "event", &makeEvent);
 }
 
@@ -22,5 +22,5 @@ fn makeEvent(_: [*c]c.fr_Object, _: usize, _: [*c]const c.fr_Value) callconv(.C)
     return .{ .type = c.FR_TYPE_OBJECT, .unnamed_0 = .{ .vobject = event.Event.make() } };
 }
 
-export fn zig_init() callconv(.C) void {
-}
+export fn zig_init() callconv(.C) void {}
+export fn zig_deinit() callconv(.C) void {}

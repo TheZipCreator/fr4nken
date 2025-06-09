@@ -6,13 +6,17 @@ extern "C" {
 
 void fr_preinit(void);
 void fr_init(void);
+void fr_deinit(void);
 
-void c_preinit(void);
-void c_init(void);
-void cpp_preinit(void);
-void cpp_init(void);
-void zig_preinit(void);
-void zig_init(void);
+#define FUNCS(NAME) void NAME##_preinit(void); void NAME##_init(void); void NAME##_deinit(void)
+
+FUNCS(c);
+FUNCS(cpp);
+FUNCS(zig);
+FUNCS(nim);
+void fr_sdlLoop(void);
+
+#undef FUNCS
 
 #endif
 #ifdef __cplusplus

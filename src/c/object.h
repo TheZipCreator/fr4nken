@@ -34,6 +34,12 @@ struct fr_Object {
 	fr_MethodTable methods;
 };
 
+/// Object data info; convenience struct so bindings don't have to bind everything
+typedef struct fr_DataInfo {
+	uint32_t dataTag;
+	void *data;
+} fr_DataInfo;
+
 /// Creates an object, starting with reference count one
 fr_Object *fr_new(uint32_t dataTag, void *data, fr_DestroyData destroyData);
 /// Creates an object, starting with reference count zero
@@ -58,14 +64,16 @@ fr_Value fr_callMethod(fr_Object *object, const char *name, size_t nargs, const 
 /// b - bool
 /// o - object
 fr_Value fr_shortCall(fr_Object *object, const char *name, const char *fmt, ...);
+/// Gets the object data
+fr_DataInfo fr_getDataInfo(fr_Object *obj);
 
-XSTD_HASHTABLE_H(fr_Registry, fr_Registry, fr_RegistryIter, fr_RegistryIter, const char*, fr_Object *);
+XSTD_HASHTABLE_H(fr_RegistryTable, fr_RegistryTable, fr_RegistryIter, fr_RegistryIter, const char*, fr_Object *);
 /// The global registry for global objects
-extern fr_Registry fr_registry;
+extern fr_RegistryTable fr_registry;
 /// Utility function to get from the registry. Note: Does not acquire the object. If you need to keep the reference, call fr_acquire()
-fr_Object **fr_registry_get(const char *name);
+fr_Object **fr_registryGet(const char *name);
 /// Utility function to add to the registry. Note: Does not acquire the object. If you need to keep the reference, call fr_acquire()
-void fr_registry_put(const char *name, fr_Object *obj);
+void fr_registryPut(const char *name, fr_Object *obj);
 
 
 

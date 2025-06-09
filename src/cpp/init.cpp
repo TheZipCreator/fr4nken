@@ -13,9 +13,9 @@ FR_METHOD(fr_makeMap) {
 extern "C" void cpp_preinit(void) {
 	fr_listDataTag = fr_newDataTag();
 	fr_mapDataTag = fr_newDataTag();
-	fr_Object *make = *fr_registry_get("make");
+	fr_Object *make = *fr_registryGet("make");
 	fr_addMethod(make, "list", &fr_makeList);
 	fr_addMethod(make, "map", &fr_makeMap);
 }
-extern "C" void cpp_init(void) {
-}
+extern "C" void cpp_init(void) {}
+extern "C" void cpp_deinit(void) {}

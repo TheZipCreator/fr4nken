@@ -12,14 +12,18 @@ const fmt = std.fmt;
 // fr_Object *fr_toString(fr_Value v);
 
 pub fn fr_acquireV(v: c.fr_Value) callconv(.C) void {
-    if(v.type != c.FR_TYPE_OBJECT)
-        return;
-    c.fr_acquire(v.unnamed_0.vobject);
+    switch(v.type) {
+        c.FR_TYPE_OBJECT => c.fr_acquire(v.unnamed_0.vobject),
+        c.FR_TYPE_CLOSURE => c.fr_acquire(v.unnamed_0.vclosure.obj),
+        else => {}
+    }
 }
 pub fn fr_releaseV(v: c.fr_Value) callconv(.C) void {
-    if(v.type != c.FR_TYPE_OBJECT)
-        return;
-    c.fr_release(v.unnamed_0.vobject);
+    switch(v.type) {
+        c.FR_TYPE_OBJECT => c.fr_release(v.unnamed_0.vobject),
+        c.FR_TYPE_CLOSURE => c.fr_release(v.unnamed_0.vclosure.obj),
+        else => {}
+    }
 }
 pub fn fr_hash(v: c.fr_Value) callconv(.C) usize {
     return switch(v.type) {

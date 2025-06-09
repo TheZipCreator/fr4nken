@@ -6,7 +6,7 @@
 #include <stdbool.h>
 #include <stdarg.h>
 
-fr_Registry fr_registry;
+fr_RegistryTable fr_registry;
 
 static size_t string_hash(const char *str) {
 	// djb2 by Dan Bernstein
@@ -19,7 +19,7 @@ static size_t string_hash(const char *str) {
 #define string_eq(a, b) (strcmp((a), (b)) == 0)
 
 XSTD_HASHTABLE_C(fr_MethodTable, fr_MethodTable, fr_MethodTableIter, fr_MethodTableIter, const char *, fr_Method, string_hash, string_eq);
-XSTD_HASHTABLE_C(fr_Registry, fr_Registry, fr_RegistryIter, fr_RegistryIter, const char *, fr_Object *, string_hash, string_eq);
+XSTD_HASHTABLE_C(fr_RegistryTable, fr_RegistryTable, fr_RegistryIter, fr_RegistryIter, const char *, fr_Object *, string_hash, string_eq);
 
 uint32_t fr_newDataTag(void) {
 	static uint32_t last_id = 1;
@@ -76,6 +76,7 @@ fr_Value fr_callMethod(fr_Object *object, const char *name, size_t nargs, const 
 	}
 	return (*meth)(object, nargs, args);
 }
+#include <stdio.h>
 
 fr_Value fr_shortCall(fr_Object *object, const char *name, const char *fmt, ...) {
 	size_t len = strlen(fmt);
@@ -106,9 +107,15 @@ fr_Value fr_shortCall(fr_Object *object, const char *name, const char *fmt, ...)
 			case 'o':
 				args[i++] = FR_OBJECT(va_arg(ap, fr_Object *));
 				break;
+			case 'c': {
+				fr_Object *o = va_arg(ap, fr_Object *);
+				const char *name = va_arg(ap, const char*);
+				args[i++] = FR_CLOSURE(o, name);
+				break;
+			}
 			default:
 				fr_printError("Unsupported shortCall character '%c' encountered.", c);
-				break;
+				return FR_UNDEFINED;
 		}
 		fmt++;
 	}
@@ -116,9 +123,13 @@ fr_Value fr_shortCall(fr_Object *object, const char *name, const char *fmt, ...)
 	return fr_callMethod(object, name, len, args);
 }
 
-fr_Object **fr_registry_get(const char *name) {
-	return fr_Registry_get(&fr_registry, name);
+fr_DataInfo fr_getDataInfo(fr_Object *obj) {
+	return (fr_DataInfo){obj->dataTag, obj->data};
 }
-void fr_registry_put(const char *name, fr_Object *obj) {
-	fr_Registry_put(&fr_registry, name, obj);
+
+fr_Object **fr_registryGet(const char *name) {
+	return fr_RegistryTable_get(&fr_registry, name);
+}
+void fr_registryPut(const char *name, fr_Object *obj) {
+	fr_RegistryTable_put(&fr_registry, name, obj);
 }
